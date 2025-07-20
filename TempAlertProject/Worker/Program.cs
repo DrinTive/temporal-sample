@@ -1,10 +1,10 @@
 // @@@SNIPSTART money-transfer-project-template-dotnet-worker
 // This file is designated to run the worker
 
-using TempAlertWorker.Activities;
-using TempAlertWorker.Workflows;
 using Temporalio.Client;
 using Temporalio.Worker;
+using Worker.Activities;
+using Worker.Workflows;
 
 // Create a client to connect to localhost on "default" namespace
 TemporalClient client = await TemporalClient.ConnectAsync(new("localhost:7233"));
@@ -19,15 +19,18 @@ Console.CancelKeyPress += (_, eventArgs) =>
 
 // Create an instance of the activities since we have instance activities.
 // If we had all static activities, we could just reference those directly.
-TempAlertActivities activities = new TempAlertActivities();
+Actions actions = new Actions();
 
 // Create a worker with the activity and workflow registered
 using TemporalWorker worker = new TemporalWorker(
     client, // client
     new TemporalWorkerOptions(taskQueue: "Temp_alert_task_queue")
-        .AddAllActivities(activities)         // Register activities
-        .AddWorkflow<TempAlertWorkflow>() // Register workflow
-);
+        .AddAllActivities(actions)         // Register activities
+        .AddWorkflow<TemperatureEscalationWorkflow>() // Register workflow
+        .AddWorkflow<BatteryControlWorkflow>() // Register workflow
+        .AddWorkflow<LightAndSafeZoneWorkflow>() // Register workflow
+
+    );
 
 // Run the worker until it's cancelled
 Console.WriteLine("Running worker...");

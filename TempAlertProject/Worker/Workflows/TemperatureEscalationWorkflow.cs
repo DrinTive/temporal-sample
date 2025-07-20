@@ -1,12 +1,15 @@
 using System.Diagnostics;
-using TempAlertWorker.Activities;
 using Temporalio.Common;
 using Temporalio.Workflows;
+using Worker.Activities;
 
-namespace TempAlertWorker.Workflows
+namespace Worker.Workflows
 {
+    /// <summary>
+    /// SOP: https://www.figma.com/board/aqefrxJU5ce5Z0T64KEOOs/Sample-Workflow?node-id=60-393&p=f&t=KyJNkdyHDm300edM-0
+    /// </summary>
     [Workflow]
-    public class TempAlertWorkflow
+    public class TemperatureEscalationWorkflow
     {
         private readonly List<(double Temperature, DateTime Timestamp)> _readings = new();
 
@@ -51,7 +54,7 @@ namespace TempAlertWorker.Workflows
 
             // Step 2: Email transporter
             await Workflow.ExecuteActivityAsync(
-                () => TempAlertActivities.EmailTransporterActivity("transporter@tive.com"),
+                () => Actions.EmailTransporterActivity("transporter@tive.com"),
                 new ActivityOptions { StartToCloseTimeout = TimeSpan.FromSeconds(20) });
 
             // Step 3: Wait for transporter response or timeout
@@ -71,7 +74,7 @@ namespace TempAlertWorker.Workflows
             {
                 Debug.WriteLine("Response received from transporter, closing issue.");
                 await Workflow.ExecuteActivityAsync(
-                    () => TempAlertActivities.CloseIssueActivity(),
+                    () => Actions.CloseIssueActivity(),
                     new ActivityOptions { StartToCloseTimeout = TimeSpan.FromSeconds(10) });
                 return;
             }
@@ -84,7 +87,7 @@ namespace TempAlertWorker.Workflows
             const string transporterPhoneNumber = "+15551234567";
 
             await Workflow.ExecuteActivityAsync(
-                () => TempAlertActivities.NotifyEscalationGroupActivity(escalationEmails),
+                () => Actions.NotifyEscalationGroupActivity(escalationEmails),
                 new ActivityOptions
                 {
                     StartToCloseTimeout = TimeSpan.FromSeconds(30),
@@ -98,11 +101,11 @@ namespace TempAlertWorker.Workflows
 
 
             await Workflow.ExecuteActivityAsync(
-                () => TempAlertActivities.TextEscalationGroupActivity(escalationPhones),
+                () => Actions.TextEscalationGroupActivity(escalationPhones),
                 new ActivityOptions { StartToCloseTimeout = TimeSpan.FromSeconds(30) });
 
             await Workflow.ExecuteActivityAsync(
-                () => TempAlertActivities.CallTransporterActivity(transporterPhoneNumber),
+                () => Actions.CallTransporterActivity(transporterPhoneNumber),
                 new ActivityOptions { StartToCloseTimeout = TimeSpan.FromSeconds(30) });
         }
 

@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TempAlertWorker\TempAlertWorker.csproj" />
+      <ProjectReference Include="..\Worker\Worker.csproj" />
     </ItemGroup>
 
 </Project>
