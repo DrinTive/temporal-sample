@@ -2,14 +2,14 @@
 
 This repository contains two .NET projects showcasing how to work with [Temporal](https://temporal.io/) for building and executing workflows:
 
-* **TempAlertClient**: A client application that starts a workflow.
-* **TempAlertWorker**: A worker application that hosts the workflow and its activities.
+* **Client**: A client that can start different workflows.
+* **Worker**: A worker application that hosts the workflows and its activities.
 
 ## 📦 Project Structure
 
 ```
-/TempAlertClient   → Triggers workflows via Temporal Client
-/TempAlertWorker   → Hosts workflow and activity implementations
+/Client   → Triggers workflows via Temporal Client
+/Worker   → Hosts workflows and activity implementations
 ```
 
 ---
@@ -48,7 +48,7 @@ Follow these steps to install and run a local Temporal development server using 
 
 1. **Start the Worker**
 
-   Open a terminal in the `TempAlertWorker` project directory and run:
+   Open a terminal in the `Client` project directory and run:
 
    ```bash
    dotnet run
@@ -58,13 +58,27 @@ Follow these steps to install and run a local Temporal development server using 
 
 2. **Start the Client**
 
-   In a separate terminal, navigate to the `TempAlertClient` directory and run:
+   In a separate terminal, navigate to the `Worker` directory and run:
 
    ```bash
    dotnet run
    ```
 
-   This sends a command to start the workflow on Temporal.
+   The client will prompt you to choose which client workflow to start:
+
+   ```bash
+   Choose client to load:
+   1. LightAndSafeZoneClient
+   2. TemperatureEscalationClient
+   Enter choice (1 or 2):
+      ```
+   Enter your choice and the selected client will be initialized and start its workflow execution.
+   You can see the Figma SOP flows here for each client :
+   
+   1. [LightAndSafeZoneClient](https://www.figma.com/board/aqefrxJU5ce5Z0T64KEOOs/Sample-Workflow?node-id=110-190&p=f&t=KyJNkdyHDm300edM-0)
+   2. [TemperatureEscalationClient](https://www.figma.com/board/aqefrxJU5ce5Z0T64KEOOs/Sample-Workflow?node-id=60-397&t=KyJNkdyHDm300edM-0)
+
+
 
 ---
 
@@ -84,7 +98,7 @@ Once your client has started a workflow and the worker is processing it:
 
 ## 📬 Triggering New Workflows
 
-Every time you run the `TempAlertClient`, it will start a new workflow execution. You can observe each run independently in the Temporal UI.
+Every time you run the `Client`, it will start a new workflow execution. You can observe each run independently in the Temporal UI.
 
 ---
 
