@@ -93,7 +93,3 @@ Every time you run the `TempAlertClient`, it will start a new workflow execution
 * This project is for learning/demo purposes.
 * You can expand the workflow with timers, retries, child workflows, etc.
 * To run with a production Temporal cluster or Temporal Cloud, adjust the connection settings in your client and worker.
-
----
-
-Let me know if you want this as a `README.md` file or tailored for deployment to a team/org.
