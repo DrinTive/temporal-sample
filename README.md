@@ -1,4 +1,4 @@
-# Temperature Alert Escalation Temporal Workflow Demo
+# Tive Temporal Workflow Samples
 
 This repository contains two .NET projects showcasing how to work with [Temporal](https://temporal.io/) for building and executing workflows:
 
