@@ -29,7 +29,7 @@ Follow these steps to install and run a local Temporal development server using 
 
 1. **Install Temporal CLI**
    Download the Temporal CLI executable for Windows:
-   [Install temporal CLI]([https://github.com/temporalio/cli/releases](https://temporal.io/setup/install-temporal-cli))
+   [Install temporal CLI]([https://github.com/temporalio/cli/releases](https://temporal.io/setup/install-temporal-cli)
 
    Add it to your `PATH`.
 
